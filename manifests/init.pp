@@ -1,10 +1,17 @@
 class env {
   case $::osfamily {
     'RedHat': {
-      concat { [ '/etc/profile.d/puppet.sh', '/etc/profile.d/puppet.csh' ]: }
+      concat { '/etc/profile.d/puppet.sh': }
+      concat { '/etc/profile.d/puppet.csh': }
 
-      concat::fragment { "env_header_redhat":
-        target => [ '/etc/profile.d/puppet.sh', '/etc/profile.d/puppet.csh' ],
+      concat::fragment { "env_header_redhat_sh":
+        target => '/etc/profile.d/puppet.sh',
+        content => "# Puppet manages this file\n",
+        order => 01,
+      }
+
+      concat::fragment { "env_header_redhat_csh":
+        target => '/etc/profile.d/puppet.csh',
         content => "# Puppet manages this file\n",
         order => 01,
       }
